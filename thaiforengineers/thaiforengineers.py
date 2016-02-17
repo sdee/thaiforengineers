@@ -3,7 +3,15 @@
 class Parser(object):
 
     live_constant_endings = []
+    
+    consonants = [u'\u0e01', u'\u0e02', u'\u0e03', u'\u0e04', u'\u0e05', u'\u0e06', u'\u0e07', u'\u0e08', u'\u0e09',
+                  u'\u0e0A', u'\u0e0B', u'\u0e0C', u'\u0e0D', u'\u0e0E', u'\u0e0F',
+                  u'\u0e11', u'\u0e12', u'\u0e13' u'\u0e14', u'\u0e15', u'\u0e16', u'\u0e17', u'\u0e18',
+                  u'\u0e1A', u'\u0e1B', u'\u0e1C', u'\u0e1D', u'\u0e1E', u'\u0e1F',
+                  u'\u0e21', u'\u0e22', u'\u0e23', u'\u0e24', u'\u0e25', u'\u0e26', u'\u0e27', u'\u0e28',
+                  u'\u0e2A', u'\u0e2B', u'\u0e2C', u'\u0e2D', u'\u0e2E']
 
+    #short vowels
     #tone modifier transform dict
 
     def is_live_syllable(self, syllable):

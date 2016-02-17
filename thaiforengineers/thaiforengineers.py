@@ -2,7 +2,14 @@
 
 class Parser(object):
 
-    live_constant_endings = []
+# -n	-น, -ณ, -ญ, -ร, -ล, -ฬ
+# -ng	-ง
+# -m	-ม
+#
+# 2 More Live Endings
+# -y	-ย
+# -w	-ว
+
 
     consonants = [u'\u0e01', u'\u0e02', u'\u0e03', u'\u0e04', u'\u0e05', u'\u0e06', u'\u0e07', u'\u0e08', u'\u0e09',
                   u'\u0e0A', u'\u0e0B', u'\u0e0C', u'\u0e0D', u'\u0e0E', u'\u0e0F',
@@ -11,9 +18,19 @@ class Parser(object):
                   u'\u0e21', u'\u0e22', u'\u0e23', u'\u0e24', u'\u0e25', u'\u0e26', u'\u0e27', u'\u0e28',
                   u'\u0e2A', u'\u0e2B', u'\u0e2C', u'\u0e2D', u'\u0e2E']
 
+    live_constant_endings = [u'\u0e19', u'\u0e13', u'\u0e0d', u'\u0e23', u'\u0e25', u'\u0e2c', u'\u0e07', u'\u0e21', u'\u0e22', u'\u0e27']
+
     vowels = [u'\u0e2F', u'\u0e31', u'\u0e32',u'\u0e33', u'\u0e34', u'\u0e35', u'\u0e36', u'\u0e37', u'\u0e38', u'\u0e39', u'\u0e3A',
               u'\u0e40', u'\u0e41', u'\u0e42', u'\u0e43', u'\u0e44', u'\u0e45', u'\u0e46', u'\u0e47', u'\u0e48',u'\u0e49',
               u'\u0e4A', u'\u0e4B',  u'\u0e4C',  u'\u0e4D', u'\u0e4E']
+
+    thai_short_vowels = [u'\u0e30', u'\u0e34', u'\u0e36', u'\u0e38', u'\u0e44', u'\u0e43']
+
+    # edge: เอะ (short), แอะ (short), โอะ (short), เอาะ short, when is อ a vowel?, เออะ short, เอียะ short, เอือะ short, อัวะ short, ฤ EU (short-vowel???), 6. ฤา REEUU (short), อำ short, เอา short
+
+    #need to look for complex characters first?
+
+    tone_modifiers = []
 
     #short vowels
     #tone modifier transform dict
@@ -25,6 +42,7 @@ class Parser(object):
     def is_dead_syllable(self):
         return not self.is_live_syllable(self)
 
+    #When a syllable does not have a final consonant, it is called open—the pronunciation of the vowel ends the pronunciation of the syllable. If there is a final consonant, the syllable is called closed.
     def is_open_syllable(self):
         pass
 

@@ -18,13 +18,23 @@ class Parser(object):
                   u'\u0e21', u'\u0e22', u'\u0e23', u'\u0e24', u'\u0e25', u'\u0e26', u'\u0e27', u'\u0e28',
                   u'\u0e2A', u'\u0e2B', u'\u0e2C', u'\u0e2D', u'\u0e2E']
 
-    live_constant_endings = [u'\u0e19', u'\u0e13', u'\u0e0d', u'\u0e23', u'\u0e25', u'\u0e2c', u'\u0e07', u'\u0e21', u'\u0e22', u'\u0e27']
+    live_consonant_endings = [u'\u0e19', u'\u0e13', u'\u0e0d', u'\u0e23', u'\u0e25', u'\u0e2c', u'\u0e07', u'\u0e21', u'\u0e22', u'\u0e27']
+
+    high_class_consonants = []
+
+    mid_class_consonants = []
+
+    low_class_consonants = []
 
     vowels = [u'\u0e2F', u'\u0e31', u'\u0e32',u'\u0e33', u'\u0e34', u'\u0e35', u'\u0e36', u'\u0e37', u'\u0e38', u'\u0e39', u'\u0e3A',
               u'\u0e40', u'\u0e41', u'\u0e42', u'\u0e43', u'\u0e44', u'\u0e45', u'\u0e46', u'\u0e47', u'\u0e48',u'\u0e49',
               u'\u0e4A', u'\u0e4B',  u'\u0e4C',  u'\u0e4D', u'\u0e4E']
 
-    thai_short_vowels = [u'\u0e30', u'\u0e34', u'\u0e36', u'\u0e38', u'\u0e44', u'\u0e43']
+    short_vowels = [u'\u0e30', u'\u0e34', u'\u0e36', u'\u0e38', u'\u0e44', u'\u0e43']
+
+    long_vowels = [u'\u0e32', u'\u0e35', u'\u0e40', u'\u0e41', u'\u0e39', u'\u0e42', u'\u0e2d', ]
+
+    #long complex: อือ, เออ, อัว, เอีย, เอือ, ฤา, ฦา
 
     # edge: เอะ (short), แอะ (short), โอะ (short), เอาะ short, when is อ a vowel?, เออะ short, เอียะ short, เอือะ short, อัวะ short, ฤ EU (short-vowel???), 6. ฤา REEUU (short), อำ short, เอา short
 
@@ -36,11 +46,12 @@ class Parser(object):
     #tone modifier transform dict
 
     def is_live_syllable(self, syllable):
-        #see if there is a short vowels or live consonant ending
-        pass
+        #see if there is a short vowels or live consonant ending-> are these last in unicode anyways
+        last = syllable[-1]
+        return last in self.short_vowels or last in self.live_consonant_endings
 
-    def is_dead_syllable(self):
-        return not self.is_live_syllable(self)
+    def is_dead_syllable(self, syllable):
+        return not self.is_live_syllable(self, syllable)
 
     #When a syllable does not have a final consonant, it is called open—the pronunciation of the vowel ends the pronunciation of the syllable. If there is a final consonant, the syllable is called closed.
     def is_open_syllable(self):
@@ -49,17 +60,23 @@ class Parser(object):
     def is_closed_syllable(self):
         pass
 
-    def ends_with_consonant(self):
-        pass
+    def first_consonant(self, syllable):
+        for l in syllable:
+            if l in self.consonants:
+                return l
 
+    #needs to include super character
     def is_character(self):
         pass
 
-    def is_vowel(self):
-        pass
+    def is_vowel(self, ch):
+        return ch in self.vowels
 
-    def is_consonant(self):
-        pass
+    def is_consonant(self, ch):
+        return ch in self.consonants
+
+    def is_tone_modifier(self, ch):
+        return ch in self.tone_modifiers
 
     def is_high_class(self):
         pass
@@ -68,9 +85,6 @@ class Parser(object):
         pass
 
     def is_mid_class(self):
-        pass
-
-    def is_tone_modifier(self):
         pass
 
     def predict_tone(self):
@@ -99,7 +113,10 @@ class Parser(object):
         for v in self.vowels:
             print unicode(v)
 
-    def label_parts_of_syllable(self):
+    #break words into parts, in order of unicode representation
+    #syllable: word, open: true/false, live: true/false, predictedTone: tone, letters: [{letter: letter, character_type, class: (high/low/short/long)}]
+    #add list of chracters, grouping mega character as one
+    def label_parts(self, syllable):
         pass
 
 def _main():

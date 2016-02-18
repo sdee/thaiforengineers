@@ -41,30 +41,37 @@ class SyllableParser(object):
 
     #need to look for complex characters first?
 
-    tone_modifiers = []
+    tone_modifiers = [u'\u0e47', u'\u0e48', u'\u0e49', u'\u0e4A', u'\u0e4B']
 
     #short vowels
     #tone modifier transform dict
 
     def is_live_syllable(self, syllable):
         #see if there is a short vowels or live consonant ending-> are these last in unicode anyways
-        last = syllable[-1]
+        last = self.final_sound(syllable)
         return last in self.short_vowels or last in self.live_consonant_endings
 
     def is_dead_syllable(self, syllable):
         return not self.is_live_syllable(self, syllable)
 
     #When a syllable does not have a final consonant, it is called open—the pronunciation of the vowel ends the pronunciation of the syllable. If there is a final consonant, the syllable is called closed.
-    def is_open_syllable(self):
-        pass
+    def is_open_syllable(self, syllable):
+        last = self.final_sound(syllable)
+        return last in self.vowels
 
     def is_closed_syllable(self):
-        pass
+        return not self.is_open_syllable()
 
     def first_consonant(self, syllable):
         for l in syllable:
             if l in self.consonants:
                 return l
+
+    #top and bottom joining vowels follow consantants
+    def final_sound(self, syllable):
+        for ch in syllable.reverse():
+            if ch in self.vowels or self.consonants: #don't return tone markers
+                return ch
 
     #needs to include super character
     def is_valid_character(self):

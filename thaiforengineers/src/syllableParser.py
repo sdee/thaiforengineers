@@ -67,7 +67,7 @@ class SyllableParser(object):
                 return l
 
     #needs to include super character
-    def is_character(self):
+    def is_valid_character(self):
         pass
 
     def is_vowel(self, ch):
@@ -79,14 +79,14 @@ class SyllableParser(object):
     def is_tone_modifier(self, ch):
         return ch in self.tone_modifiers
 
-    def is_high_class(self):
-        pass
+    def is_high_class(self, ch):
+        return ch in self.high_class_consonants
 
-    def is_low_class(self):
-        pass
+    def is_low_class(self, ch):
+        return ch in self.low_class_consonants
 
-    def is_mid_class(self):
-        pass
+    def is_mid_class(self, ch):
+        return ch in self.mid_class_consonants
 
     def predict_tone(self):
         pass

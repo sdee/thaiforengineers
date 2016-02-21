@@ -1,6 +1,6 @@
-import urllib
+import urllib, os
 from bs4 import BeautifulSoup
-
+from syllableParser import SyllableParser
 class ValidationParser (object):
 
     url = ""
@@ -8,11 +8,12 @@ class ValidationParser (object):
     soup = ""
 
     def __init__(self):
-        pass
+        parser = SyllableParser()
 
     def parse(self):
+        print os.getcwd()
         file = open("newfile.txt", "w")
-        self.page = urllib.urlopen("thaiwords.html")
+        self.page = urllib.urlopen("/Users/sutee/src/thaiforengineers/src/tools/thaiwords.html")
         self.soup = BeautifulSoup(self.page, 'html.parser')
         print "initialized"
         rows = self.soup.findAll('tr')
@@ -32,9 +33,6 @@ class ValidationParser (object):
                             print tone.string
                             print definition
         file.close()
-
-
-
 
 def _main():
     print "start parsing"

@@ -1,6 +1,7 @@
 import urllib, os
 from bs4 import BeautifulSoup
 from syllableParser import SyllableParser
+from io import open
 class ValidationParser (object):
 
     url = ""
@@ -8,11 +9,11 @@ class ValidationParser (object):
     soup = ""
 
     def __init__(self):
-        parser = SyllableParser()
+        self.parser = SyllableParser()
 
     def parse(self):
         print os.getcwd()
-        file = open("newfile.txt", "w")
+        vfile = open("newfile.txt", "w")
         self.page = urllib.urlopen("/Users/sutee/src/thaiforengineers/src/tools/thaiwords.html")
         self.soup = BeautifulSoup(self.page, 'html.parser')
         print "initialized"
@@ -29,15 +30,28 @@ class ValidationParser (object):
                         thaiword=tds[0].string
                         print tds[0].findAll('a')[0].string
                         for tone in tones:
-                            file.write(thaiword.encode('utf8')+"\t"+definition.encode('utf8')+"\t"+tone.string.encode('utf8')+"\n")
+                            vfile.write(thaiword.encode('utf8')+"\t"+definition.encode('utf8')+"\t"+tone.string.encode('utf8')+"\n")
                             print tone.string
                             print definition
-        file.close()
+        vfile.close()
+
+    def validate(self):
+        print "validate"
+        with open("/Users/sutee/src/thaiforengineers/src/newfile2.txt", "r") as infile:
+            for line in infile:
+                print "---"
+                data = line.split("\t")
+                thai, definition, tone = data
+                print thai
+                for char in thai:
+                    print self.parser.is_vowel(char)
+
 
 def _main():
     print "start parsing"
     p = ValidationParser()
-    p.parse()
+    # p.parse()
+    p.validate()
 
 if __name__ == "__main__":
     _main()

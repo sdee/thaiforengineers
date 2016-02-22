@@ -1,5 +1,7 @@
 #-*-coding: utf-8 -*-
 
+from enum import Enum
+
 class SyllableParser(object):
 
 # -n	-น, -ณ, -ญ, -ร, -ล, -ฬ
@@ -10,6 +12,16 @@ class SyllableParser(object):
 # -y	-ย
 # -w	-ว
 
+    #standardizes the labels applied to letters, a letter can have multiple descriptors
+    class CharDescriptor(Enum):
+        consonant = 1
+        vowel = 2
+        tone_modifier = 3
+        high_class = 4
+        mid_class = 5
+        low_class = 6
+        long_vowel = 7
+        short_vowel = 8
 
     consonants = [u'\u0e01', u'\u0e02', u'\u0e03', u'\u0e04', u'\u0e05', u'\u0e06', u'\u0e07', u'\u0e08', u'\u0e09',
                   u'\u0e0A', u'\u0e0B', u'\u0e0C', u'\u0e0D', u'\u0e0E', u'\u0e0F',
@@ -94,6 +106,39 @@ class SyllableParser(object):
 
     def is_mid_class(self, ch):
         return ch in self.mid_class_consonants
+
+    def is_long_vowel(self, ch):
+        return ch in self.long_vowels
+
+    def is_short_vowel(self, ch):
+        return ch in self.short_vowels
+
+    def get_consonant_class(self, ch):
+        if self.is_high_class(ch):
+            return self.CharDescriptor.high_class
+        elif self.is_low_class(ch):
+            return self.CharDescriptor.low_class
+        elif self.is_mid_class(ch):
+            return self.CharDescriptor.mid_class
+
+    def get_vowel_length(self, ch):
+        if self.is_long_vowel:
+            return self.CharDescriptor.long_vowel
+        elif self.is_short_vowel:
+            return self.CharDescriptor.short_vowel
+
+    def label_char(self, ch):
+        descriptors = ()
+        is_vowel, is_consonant, is_tone_modifier = self.is_vowel(ch), self.is_consonant(ch), self.is_tone_modifier(ch)
+        if is_vowel:
+            descriptors.append(self.CharDescriptor.vowel)
+            descriptors.append(self.get_vowel_length(ch))
+        elif is_consonant:
+            descriptors.append(self.CharDescriptor.consonant)
+            descriptors.append(self.get_consonant_class(ch))
+        elif is_tone_modifier: #should return type of descriptor?
+            descriptors.append(self.CharDescriptor.tone_modifier)
+        return descriptors
 
     def predict_tone(self):
         pass

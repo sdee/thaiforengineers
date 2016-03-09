@@ -86,8 +86,8 @@ class SyllableParser(object):
                 return ch
 
     #needs to include super character
-    def is_valid_character(self):
-        pass
+    def is_valid_character(self, ch):
+        return self.is_vowel(ch) or self.is_consonant(ch) or self.is_tone_modifier(ch)
 
     def is_vowel(self, ch):
         return ch in self.vowels
@@ -143,10 +143,14 @@ class SyllableParser(object):
     def predict_tone(self):
         pass
 
-    def generate_facts(self):
+    def generate_facts(self, syllable):
+        #consonants
+        #vowels
+        #leading letter
+        #short, long vowel
+        #live dead syllable
+        #transform of modifier
         pass
-
-    # advanced
 
     #looks to see if consonant is beginning or end, read in tsv exported from spreadsheet
     def sound(self):
@@ -161,7 +165,6 @@ class SyllableParser(object):
             print unicode(c)
             print unicode(c) in u'ข'
         print u'ข' in self.consonants
-
         print "-----------"
         for v in self.vowels:
             print unicode(v)

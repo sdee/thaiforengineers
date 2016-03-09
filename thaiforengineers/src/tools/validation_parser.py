@@ -27,7 +27,7 @@ class ValidationParser (object):
                 if definition:
                     tones = tds[1].findAll('span')
                     if len(tones) == 1: # only care about one syllable for now
-                        thaiword=tds[0].string
+                        thaiword = tds[0].string
                         print tds[0].findAll('a')[0].string
                         for tone in tones:
                             vfile.write(thaiword.encode('utf8')+"\t"+definition.encode('utf8')+"\t"+tone.string.encode('utf8')+"\n")
@@ -45,7 +45,6 @@ class ValidationParser (object):
                 print thai
                 for char in thai:
                     print self.parser.is_vowel(char)
-
 
 def _main():
     print "start parsing"
